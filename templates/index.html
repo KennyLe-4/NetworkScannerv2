@@ -20,23 +20,23 @@
                 <label>Scan Type:</label><br>
                 <div class="d-flex flex-wrap">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="scan_type" id="quick" value="quick" required>
+                        <input class="form-check-input" type="radio" name="scan_type" id="quick" value="quick" required onclick="showScanDescription('quick')">
                         <label class="form-check-label" for="quick">Quick Scan</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="scan_type" id="vuln" value="vuln" required>
+                        <input class="form-check-input" type="radio" name="scan_type" id="vuln" value="vuln" required onclick="showScanDescription('vuln')">
                         <label class="form-check-label" for="vuln">Vulnerability Scan</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="scan_type" id="full" value="full" required>
+                        <input class="form-check-input" type="radio" name="scan_type" id="full" value="full" required onclick="showScanDescription('full')">
                         <label class="form-check-label" for="full">Full Port Scan</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="scan_type" id="service" value="service" required>
+                        <input class="form-check-input" type="radio" name="scan_type" id="service" value="service" required onclick="showScanDescription('service')">
                         <label class="form-check-label" for="service">Service Detection</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="scan_type" id="os" value="os" required>
+                        <input class="form-check-input" type="radio" name="scan_type" id="os" value="os" required onclick="showScanDescription('os')">
                         <label class="form-check-label" for="os">OS Detection</label>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
             </div>
             <button type="submit" class="btn btn-primary w-100">Start Scan</button>
         </form>
-        <!-- Spinner -->
+        
         <div class="text-center mt-3">
             <div class="spinner-border text-primary" role="status" id="loadingSpinner" style="display: none;">
                 <span class="sr-only">Loading...</span>
@@ -59,5 +59,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='js/spinner.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tooltip.js') }}"></script> 
 </body>
 </html>
