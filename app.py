@@ -16,14 +16,6 @@ def home():
         target = request.form['target']  # Target IP address or range
         scan_type = request.form['scan_type']  # Type of scan selected by the user
 
-        # Validate the target input
-        if not target:
-            flash('Target is required!', 'danger')  # Display an error message
-            return redirect(url_for('home'))  # Redirect back to the home page
-
-        # Redirect to the scan results page with the provided parameters
-        return redirect(url_for('scan_results', target=target, scan_type=scan_type))
-    
     # Render the home page template
     return render_template('index.html')
 
@@ -44,10 +36,6 @@ def scan_results():
         scan_args = '--script vuln'  # Vulnerability scan using nmap's scripts
     elif scan_type == 'full':
         scan_args = '-p-'  # Full port scan
-    elif scan_type == 'service':
-        scan_args = '-sV'  # Service version detection
-    elif scan_type == 'os':
-        scan_args = '-O'  # OS detection
     elif scan_type == 'aggressive':
         scan_args = '-T4 -A'  # Aggressive scan with OS detection and version info
     else:
