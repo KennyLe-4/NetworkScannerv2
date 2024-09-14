@@ -4,9 +4,6 @@ import nmap  # Import the nmap library for network scanning
 # Initialize the Flask application
 app = Flask(__name__)
 
-# Set a secret key for the session to enable flash messages
-app.secret_key = 'your_secret_key'
-
 # Define the route for the home page
 @app.route('/', methods=['GET', 'POST'])
 def home():

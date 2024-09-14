@@ -11,31 +11,30 @@
         <h1 class="text-center">Scan Results</h1>
 
         {% if results %}
-            <h3>Ports</h3>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>IP Address</th>
-                        <th>Port</th>
-                        <th>State</th>
-                        <th>Service</th>
-                        <th>Version</th>  <!-- Added Version Column -->
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for host in results %}
+            {% for host in results %}
+                <h3>Results for IP Address: {{ host.ip }}</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Port</th>
+                            <th>State</th>
+                            <th>Service</th>
+                            <th>Version</th>  
+                        </tr>
+                    </thead>
+                    <tbody>
                         {% for port in host.ports %}
                             <tr>
-                                <td>{{ host.ip }}</td>
                                 <td>{{ port.port }}</td>
                                 <td>{{ port.state }}</td>
                                 <td>{{ port.service }}</td>
-                                <td>{{ port.version }}</td>  <!-- Display Version -->
+                                <td>{{ port.version }}</td>  
                             </tr>
                         {% endfor %}
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+                <hr>  <!-- Add a horizontal line to separate results for different IPs -->
+            {% endfor %}
         {% else %}
             <p>No open ports found.</p>
         {% endif %}
