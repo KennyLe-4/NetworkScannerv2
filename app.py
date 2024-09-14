@@ -69,7 +69,8 @@ def scan_results():
               port_info = {
                   'port': port,
                   'state': nm[host][proto][port]['state'],
-                  'service': nm[host][proto][port]['name']
+                  'service': nm[host][proto][port]['name'],
+                  'version': nm[host][proto][port].get('version', 'N/A')  # Get version info, default to 'N/A'
               }
               host_info['ports'].append(port_info)
 
