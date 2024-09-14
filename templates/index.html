@@ -17,27 +17,23 @@
                 <input type="text" class="form-control" id="target" name="target" placeholder="e.g., 192.168.1.1" required>
             </div>
             <div class="form-group">
-                <label>Scan Type:</label><br>
+                <label>Scan Type:</label>
                 <div class="d-flex flex-wrap">
-                    <div class="form-check form-check-inline">
+                    <div class="form-check flex-fill">
                         <input class="form-check-input" type="radio" name="scan_type" id="quick" value="quick" required onclick="showScanDescription('quick')">
                         <label class="form-check-label" for="quick">Quick Scan</label>
                     </div>
-                    <div class="form-check form-check-inline">
+                    <div class="form-check flex-fill">
                         <input class="form-check-input" type="radio" name="scan_type" id="vuln" value="vuln" required onclick="showScanDescription('vuln')">
                         <label class="form-check-label" for="vuln">Vulnerability Scan</label>
                     </div>
-                    <div class="form-check form-check-inline">
+                    <div class="form-check flex-fill">
                         <input class="form-check-input" type="radio" name="scan_type" id="full" value="full" required onclick="showScanDescription('full')">
                         <label class="form-check-label" for="full">Full Port Scan</label>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="scan_type" id="service" value="service" required onclick="showScanDescription('service')">
-                        <label class="form-check-label" for="service">Service Detection</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="scan_type" id="os" value="os" required onclick="showScanDescription('os')">
-                        <label class="form-check-label" for="os">OS Detection</label>
+                    <div class="form-check flex-fill">
+                        <input class="form-check-input" type="radio" name="scan_type" id="aggressive" value="aggressive" required onclick="showScanDescription('aggressive')">
+                        <label class="form-check-label" for="aggressive">Aggressive Scan</label>
                     </div>
                 </div>
             </div>
