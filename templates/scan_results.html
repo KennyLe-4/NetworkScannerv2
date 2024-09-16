@@ -12,47 +12,50 @@
         <br>
 
         {% if results %}
-            {% for host in results %}
-                <h3>Results for IP Address: {{ host.ip if host.ip else 'N/A' }}</h3>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Port</th>
-                            <th>State</th>
-                            <th>Service</th>
-                            <th>Version</th>  
-                        </tr>
-                    </thead>
-                    <tbody>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Port</th>
+                        <th>State</th>
+                        <th>Service</th>
+                        <th>Version</th>
+                        <th>Recommendations</th>  <!-- New column for recommendations -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for host in results %}
                         {% if host.ports %}
                             {% for port in host.ports %}
                                 <tr>
+                                    <td>{{ host.ip if host.ip else 'N/A' }}</td>
                                     <td>{{ port.port if port.port else 'N/A' }}</td>
                                     <td>{{ port.state if port.state else 'N/A' }}</td>
-                                    <td>{{ port.service if port.service else 'N/A' }}</td>  <!-- Show 'N/A' if no service -->
-                                    <td>{{ port.version if port.version else 'N/A' }}</td>  <!-- Show 'N/A' if no version -->
+                                    <td>{{ port.service if port.service else 'N/A' }}</td>
+                                    <td>{{ port.version if port.version else 'N/A' }}</td>
+                                    <td>
+                                        {% if recommendations %}
+                                            {% for recommendation in recommendations %}
+                                                <div>{{ recommendation }}</div>  <!-- Display each recommendation -->
+                                            {% endfor %}
+                                        {% else %}
+                                            N/A  <!-- Default if no recommendations -->
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         {% else %}
                             <tr>
-                                <td colspan="4" class="text-center">No ports found for this IP address.</td>
+                                <td>{{ host.ip if host.ip else 'N/A' }}</td>
+                                <td colspan="5" class="text-center">No ports found for this IP address.</td>
+                                <td>N/A</td>  <!-- No recommendations -->
                             </tr>
                         {% endif %}
-                    </tbody>
-                </table>
-                <hr>  <!-- Add a horizontal line to separate results for different IPs -->
-            {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
         {% else %}
             <p>No open ports found.</p>
-        {% endif %}
-
-        {% if recommendations %}
-            <h3>Recommendations</h3>
-            <ul>
-                {% for recommendation in recommendations %}
-                    <li>{{ recommendation }}</li>
-                {% endfor %}
-            </ul>
         {% endif %}
 
         <a href="{{ url_for('home') }}" class="btn btn-primary">Back to Home</a>
