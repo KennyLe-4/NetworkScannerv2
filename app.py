@@ -33,7 +33,7 @@ def scan_results():
   if scan_type == 'quick':
       scan_args = '-T4 -F'  # Quick scan (common ports)
   elif scan_type == 'vuln':
-      scan_args = '--script vuln'  # Vulnerability scan using nmap's scripts
+      scan_args = '--script vuln -T4'  # Vulnerability scan using nmap's scripts
   elif scan_type == 'full':
       scan_args = '-p-'  # Full port scan
   elif scan_type == 'aggressive':
