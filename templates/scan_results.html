@@ -20,7 +20,6 @@
                         <th>State</th>
                         <th>Service</th>
                         <th>Version</th>
-                        <th>Recommendations</th>  <!-- New column for recommendations -->
                     </tr>
                 </thead>
                 <tbody>
@@ -33,22 +32,22 @@
                                     <td>{{ port.state if port.state else 'N/A' }}</td>
                                     <td>{{ port.service if port.service else 'N/A' }}</td>
                                     <td>{{ port.version if port.version else 'N/A' }}</td>
-                                    <td>
-                                        {% if recommendations %}
-                                            {% for recommendation in recommendations %}
-                                                <div>{{ recommendation }}</div>  <!-- Display each recommendation -->
-                                            {% endfor %}
-                                        {% else %}
-                                            N/A  <!-- Default if no recommendations -->
-                                        {% endif %}
-                                    </td>
                                 </tr>
                             {% endfor %}
+                            <tr>
+                                <td colspan="5" class="text-left">
+                                    <strong>Recommendations:</strong>
+                                    <ul>
+                                        {% for recommendation in recommendations %}
+                                            <li>{{ recommendation }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
                         {% else %}
                             <tr>
                                 <td>{{ host.ip if host.ip else 'N/A' }}</td>
-                                <td colspan="5" class="text-center">No ports found for this IP address.</td>
-                                <td>N/A</td>  <!-- No recommendations -->
+                                <td colspan="4" class="text-center">No ports found for this IP address.</td>
                             </tr>
                         {% endif %}
                     {% endfor %}
