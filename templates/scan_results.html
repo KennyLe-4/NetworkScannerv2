@@ -9,10 +9,11 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Scan Results</h1>
+        <br>
 
         {% if results %}
             {% for host in results %}
-                <h3>Results for IP Address: {{ host.ip }}</h3>
+                <h3>Results for IP Address: {{ host.ip if host.ip else 'N/A' }}</h3>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -23,14 +24,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for port in host.ports %}
+                        {% if host.ports %}
+                            {% for port in host.ports %}
+                                <tr>
+                                    <td>{{ port.port if port.port else 'N/A' }}</td>
+                                    <td>{{ port.state if port.state else 'N/A' }}</td>
+                                    <td>{{ port.service if port.service else 'N/A' }}</td>  <!-- Show 'N/A' if no service -->
+                                    <td>{{ port.version if port.version else 'N/A' }}</td>  <!-- Show 'N/A' if no version -->
+                                </tr>
+                            {% endfor %}
+                        {% else %}
                             <tr>
-                                <td>{{ port.port }}</td>
-                                <td>{{ port.state }}</td>
-                                <td>{{ port.service }}</td>
-                                <td>{{ port.version }}</td>  
+                                <td colspan="4" class="text-center">No ports found for this IP address.</td>
                             </tr>
-                        {% endfor %}
+                        {% endif %}
                     </tbody>
                 </table>
                 <hr>  <!-- Add a horizontal line to separate results for different IPs -->
