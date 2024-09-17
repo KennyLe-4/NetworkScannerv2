@@ -31,15 +31,15 @@ def scan_results():
 
   # Set scan arguments based on the selected scan type
   if scan_type == 'quick':
-      scan_args = '-T4 -F -sn'  # Quick scan (common ports and ping scan)
+      scan_args = '-T4 -F'  # Quick scan (common ports and ping scan)
   elif scan_type == 'vuln':
-      scan_args = '--script vuln -T4 -sV'  # Vulnerability scan using Nmap's scripts with service version detection
+      scan_args = '--script vuln'  # Vulnerability scan using Nmap's scripts
   elif scan_type == 'full':
-      scan_args = '-p- -sV -O'  # Full port scanwith service version detection and OS detection
+      scan_args = '-p-'  # Full port scan (all ports)
   elif scan_type == 'aggressive':
-      scan_args = '-T4 -A -sV -O'  # Aggressive scan with OS detection and version info, and scripts 
+      scan_args = '-A'  # Aggressive scan with OS detection and version detection.
   else:
-      scan_args = '-T4 -sn'  # Default fast scan
+      scan_args = '-T4 -sn'  # Default fast scan (TCP SYN scan)
 
   # Execute the scan
   try:
