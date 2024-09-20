@@ -1,8 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import nmap  # Import the nmap library for network scanning
+import re  # Import regular expressions for IP validation
+import os  # Import os for environment variable access
 
 # Initialize the Flask application
 app = Flask(__name__)
+
+# Set the secret key for session management
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))  # Generates a random key if not set
+
+# Function to validate IP address
+def is_valid_ip(ip):
+  # Regular expression for validating an IP address
+  pattern = re.compile(r'^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$')
+  return pattern.match(ip) is not None
 
 # Define the route for the home page
 @app.route('/', methods=['GET', 'POST'])
@@ -12,6 +23,11 @@ def home():
       # Retrieve form data
       target = request.form['target']  # Target IP address or range
       scan_type = request.form['scan_type']  # Type of scan selected by the user
+
+      # Validate the IP address
+      if not is_valid_ip(target):
+          flash('Invalid IP address, please check if it is correct', 'danger')  # Flash an error message
+          return render_template('index.html')  # Render the home page again with the error
 
       # Redirect to the scan results page with the provided parameters
       return redirect(url_for('scan_results', target=target, scan_type=scan_type))
@@ -37,7 +53,7 @@ def scan_results():
   elif scan_type == 'full':
       scan_args = '-p-'  # Full port scan (all ports)
   elif scan_type == 'aggressive':
-      scan_args = '-A'  # Aggressive scan with OS detection and version detection.
+      scan_args = '-A'  # Aggressive scan with OS detection and version detection
   else:
       scan_args = '-T4 -sn'  # Default fast scan (TCP SYN scan)
 
