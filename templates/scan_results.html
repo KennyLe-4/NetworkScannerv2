@@ -10,7 +10,6 @@
     <div class="container mt-5">
         <h1 class="text-center">Scan Results</h1>
         <br>
-
         {% if results %}
             {% for host in results %}
                 <h3>Results for IP Address: {{ host.ip if host.ip else 'N/A' }}</h3>

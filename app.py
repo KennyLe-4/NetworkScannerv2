@@ -1,8 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import nmap  # Import the nmap library for network scanning
+import os  # Import os for environment variable access
+from utils.validation import is_valid_target  # type: ignore # Import the is_valid_target function from the utils package
 
 # Initialize the Flask application
 app = Flask(__name__)
+# Set the secret key for session management
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))  # Generates a random key if not set
+
 
 # Define the route for the home page
 @app.route('/', methods=['GET', 'POST'])
@@ -12,6 +17,11 @@ def home():
       # Retrieve form data
       target = request.form['target']  # Target IP address or range
       scan_type = request.form['scan_type']  # Type of scan selected by the user
+
+      # Validate the IP address
+      if not is_valid_target(target):
+          flash('Invalid IP address or domain, please check if it is correct', 'danger')  # Flash an error message
+          return render_template('index.html')  # Render the home page again with the error
 
       # Redirect to the scan results page with the provided parameters
       return redirect(url_for('scan_results', target=target, scan_type=scan_type))
@@ -31,22 +41,23 @@ def scan_results():
 
   # Set scan arguments based on the selected scan type
   if scan_type == 'quick':
-      scan_args = '-T4 -F'  # Quick scan (common ports)
+      scan_args = '-T4 -F'  # Quick scan (common ports and ping scan)
   elif scan_type == 'vuln':
-      scan_args = '--script vuln -T4'  # Vulnerability scan using nmap's scripts
+      scan_args = '--script vuln'  # Vulnerability scan using Nmap's scripts
   elif scan_type == 'full':
-      scan_args = '-p-'  # Full port scan
+      scan_args = '-p-'  # Full port scan (all ports)
   elif scan_type == 'aggressive':
-      scan_args = '-T4 -A'  # Aggressive scan with OS detection and version info
+      scan_args = '-A'  # Aggressive scan with OS detection and version detection
   else:
-      scan_args = '-T4'  # Default fast scan
+      scan_args = '-T4 -sn'  # Default fast scan (TCP SYN scan)
 
   # Execute the scan
   try:
-      print(f"Scanning {target} with arguments: {scan_args}")  # Debugging line
+      print(f"Starting scan on {target} with arguments: {scan_args}")  # Debugging line
       nm.scan(target, arguments=scan_args)
       print("Scan executed successfully.")  # Debugging line
   except Exception as e:
+      print(f"An error occurred during scanning: {str(e)}")  # Debugging line
       flash(f"An error occurred: {str(e)}", 'danger')  # Display an error message
       return redirect(url_for('home'))  # Redirect back to the home page
 
