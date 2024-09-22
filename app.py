@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import nmap  # Import the nmap library for network scanning
-import re  # Import regular expressions for IP validation
 import os  # Import os for environment variable access
+import re  # Import re for regular expressions
+import time  # Import time for measuring scan duration
 
 # Initialize the Flask application
 app = Flask(__name__)
-
 # Set the secret key for session management
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))  # Generates a random key if not set
 
@@ -59,10 +59,11 @@ def scan_results():
 
   # Execute the scan
   try:
-      print(f"Scanning {target} with arguments: {scan_args}")  # Debugging line
+      print(f"Starting scan on {target} with arguments: {scan_args}")  # Debugging line
       nm.scan(target, arguments=scan_args)
       print("Scan executed successfully.")  # Debugging line
   except Exception as e:
+      print(f"An error occurred during scanning: {str(e)}")  # Debugging line
       flash(f"An error occurred: {str(e)}", 'danger')  # Display an error message
       return redirect(url_for('home'))  # Redirect back to the home page
 
