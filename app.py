@@ -1,21 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import nmap  # Import the nmap library for network scanning
 import os  # Import os for environment variable access
-import re  # Import re for regular expressions
 import time  # Import time for measuring scan duration
+from utils.validation import is_valid_target  # type: ignore # Import the is_valid_target function from the utils package
 
 # Initialize the Flask application
 app = Flask(__name__)
 # Set the secret key for session management
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))  # Generates a random key if not set
 
-# Function to validate IP address or domain
-def is_valid_target(target):
-    # Regular expression for validating an IP address
-    ip_pattern = re.compile(r'^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$')
-    # Regular expression for validating a domain name
-    domain_pattern = re.compile(r'^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
-    return ip_pattern.match(target) is not None or domain_pattern.match(target) is not None
 
 # Define the route for the home page
 @app.route('/', methods=['GET', 'POST'])
