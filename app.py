@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import nmap  # Import the nmap library for network scanning
 import os  # Import os for environment variable access
-import time  # Import time for measuring scan duration
 from utils.validation import is_valid_target  # type: ignore # Import the is_valid_target function from the utils package
 
 # Initialize the Flask application
@@ -21,7 +20,7 @@ def home():
 
       # Validate the IP address
       if not is_valid_target(target):
-          flash('Invalid IP address, please check if it is correct', 'danger')  # Flash an error message
+          flash('Invalid IP address or domain, please check if it is correct', 'danger')  # Flash an error message
           return render_template('index.html')  # Render the home page again with the error
 
       # Redirect to the scan results page with the provided parameters
