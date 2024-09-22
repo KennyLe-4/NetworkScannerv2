@@ -9,11 +9,13 @@ app = Flask(__name__)
 # Set the secret key for session management
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))  # Generates a random key if not set
 
-# Function to validate IP address
-def is_valid_ip(ip):
-  # Regular expression for validating an IP address
-  pattern = re.compile(r'^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$')
-  return pattern.match(ip) is not None
+# Function to validate IP address or domain
+def is_valid_target(target):
+    # Regular expression for validating an IP address
+    ip_pattern = re.compile(r'^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$')
+    # Regular expression for validating a domain name
+    domain_pattern = re.compile(r'^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
+    return ip_pattern.match(target) is not None or domain_pattern.match(target) is not None
 
 # Define the route for the home page
 @app.route('/', methods=['GET', 'POST'])
@@ -25,7 +27,7 @@ def home():
       scan_type = request.form['scan_type']  # Type of scan selected by the user
 
       # Validate the IP address
-      if not is_valid_ip(target):
+      if not is_valid_target(target):
           flash('Invalid IP address, please check if it is correct', 'danger')  # Flash an error message
           return render_template('index.html')  # Render the home page again with the error
 
