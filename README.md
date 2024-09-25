@@ -25,10 +25,8 @@ A simple web-based network scanner application built with Flask and Nmap. This a
 2. **Create a Virtual Environment** (optional but recommended):
 bash python -m venv venv
 source venv/bin/activate  # On Windows use venv\\Scripts\\activate
-
-**Install Dependencies**:
-bash
-pip install -r requirements.txtæ
+3. **Install Dependencies**:
+bash pip install -r requirements.txtæ
 
 ## Usage
 **Run the Application**:
